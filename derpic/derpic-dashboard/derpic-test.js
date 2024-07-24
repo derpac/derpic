@@ -49,9 +49,23 @@ function loadGallery(){
             const cell = document.createElement('div');
             cell.className = 'grid-item';
             cell.id = `grid-item-slug-${data[i].slug}`;
-            cell.appendChild(img);
+            const spinner = document.createElement('div');
+            spinner.className = 'loading-spinner';
+
+            cell.appendChild(spinner);
             document.getElementById('galleryGrid').appendChild(cell);
 
+            // Once the image is loaded, remove the spinner and add the image to the cell
+            img.onload = function() {
+                spinner.remove();
+                cell.appendChild(img);
+            };
+
+            // Handle image loading error
+            img.onerror = function() {
+                spinner.remove();
+                cell.innerHTML = '<p>Failed to load image</p>';
+            };
         }
     })
     .catch(error => {
