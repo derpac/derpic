@@ -67,14 +67,13 @@ ___
 
 ### Size:
 
-![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=0&width=301&height=301&flipv=false&fliph=false)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=0&width=201&height=201&flipv=false&fliph=false)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=0&width=101&height=101&flipv=false&fliph=false)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=0&width=41&height=41&flipv=false&fliph=false)
+![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=0&width=201&height=201&flipv=false&fliph=false)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=0&width=161&height=161&flipv=false&fliph=false)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=0&width=121&height=121&flipv=false&fliph=false)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=0&width=81&height=81&flipv=false&fliph=false)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=0&width=41&height=41&flipv=false&fliph=false)
 
 
 
 ### Rotation:
 
-![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=0&width=201&height=201&flipv=false&fliph=false)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=90&width=201&height=201&flipv=false&fliph=false)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=180&width=201&height=201&flipv=false&fliph=false)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=270&width=201&height=201&flipv=false&fliph=false)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=360&width=201&height=201&flipv=false&fliph=false)
-
+![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=0&width=201&height=201&flipv=false&fliph=false)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=90&width=201&height=201&flipv=false&fliph=false)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=180&width=201&height=201&flipv=false&fliph=false)![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=270&width=201&height=201&flipv=false&fliph=false)
 ### Flip-h:
 
 ![](https://i.dev.alv.cx/i/6x_2TrXaYOhYsUNatJHHlg?rotation=0&width=201&height=201&flipv=false&fliph=true)
