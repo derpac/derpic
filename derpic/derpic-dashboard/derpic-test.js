@@ -3,12 +3,13 @@ const token = getCookie("token");
 const username = getCookie("user");                      //sets the token and username from cookies
 
 const apiKey = `${token}`;
-const apiUrl = 'https://i.dev.alv.cx/i';                 // sets API URL and the key
+const apiUrl = 'https://i.alv.cx/i';                 // sets API URL and the key
 
 const dropArea = document.getElementById("drop-area");    // setting global areas and variables
 const inputFile = document.getElementById("input-img");
 const imageView = document.getElementById("img-view");
 
+let clickedItem = null;
 let selectedItem = null;
 let slug = "";
 let liveSlug = "";
@@ -42,7 +43,7 @@ function loadGallery(){
         // console.log(data.length);
         // console.log(slug, id);
         for(let i = 0; i < data.length; i++){
-            imgDataStorage = `https://i.dev.alv.cx/i/${data[i].slug}`     //using the token iterates through the data and displays the images in the gallery hosted from the backend
+            imgDataStorage = `https://i.alv.cx/i/${data[i].slug}`     //using the token iterates through the data and displays the images in the gallery hosted from the backend
             const img = document.createElement('img');
             img.src = imgDataStorage;
             img.className = "galleryImg";
@@ -302,6 +303,12 @@ function lightMode(){
 
 // firstly we create a selected item function and class to apply css and gather info
 
+// fix selected items showing....
+
+//make sure you cant copy URL for multidelete
+
+// make the images show for multidelete...............
+
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('galleryGrid');
     const deleteBtn = document.getElementById('deleteButton');
@@ -309,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     grid.addEventListener('click', function(event) {
         if (event.target.classList.contains('grid-item') || event.target.closest('.grid-item')) {
-            let clickedItem = event.target.closest('.grid-item');
+            clickedItem = event.target.closest('.grid-item');
             const slugId = clickedItem.id;
             const parts = slugId.split("-");
             const slug = parts.slice(3).join("-");
@@ -329,6 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             console.log(selectedItems);
+            
             if (selectedItems.length > 0) {
                 selectedPopup();
                 getImageFile();
@@ -346,8 +354,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function selectedPopup(){
     document.getElementById('uploadButton').disabled = true;
-    // let imgElement = selectedItem.children[0];
-    // let imgLink = imgElement.getAttribute('src');
+    let imgElement = clickedItem.children[0];
+    let imgLink = imgElement.getAttribute('src');
     imageView.textContent = "";
     imageView.style.border = 0;
     const pic = document.createElement("div");
@@ -355,7 +363,7 @@ function selectedPopup(){
     pic.id = "mainPic";
     let picture = document.createElement("img");
     picture.id = "imgElement";
-    // picture.src = imgLink;
+    picture.src = imgLink;
     pic.appendChild(picture);
     
     imageView.appendChild(pic);
@@ -531,7 +539,7 @@ function displayCopyImg(){
             }   
         else{
 
-            selectedPopupFromSlug(`https://i.dev.alv.cx/i/${slug}`);
+            selectedPopupFromSlug(`https://i.alv.cx/i/${selectedItems[0]}`);
             document.getElementById("rt")?.remove();
             document.getElementById("wd")?.remove();
             document.getElementById("hi")?.remove();
@@ -614,7 +622,7 @@ function displayCopyImg(){
             flipvBool = "false";
         }
 
-        liveSlug = `https://i.dev.alv.cx/i/${slug}?rotation=${rotationdeg}&width=${widthpx}&height=${heightpx}&flipv=${flipvBool}&fliph=${fliphBool}`;
+        liveSlug = `https://i.alv.cx/i/${slug}?rotation=${rotationdeg}&width=${widthpx}&height=${heightpx}&flipv=${flipvBool}&fliph=${fliphBool}`;
         selectedPopupFromSlug(liveSlug);
     }
 }
@@ -781,7 +789,7 @@ function copyURL(){
         }
 
         if(widthpx && heightpx && rotationdeg){
-        let copyURL = `https://i.dev.alv.cx/i/${slug}?rotation=${rotationdeg}&width=${widthpx}&height=${heightpx}&flipv=${flipvBool}&fliph=${fliphBool}`;
+        let copyURL = `https://i.alv.cx/i/${slug}?rotation=${rotationdeg}&width=${widthpx}&height=${heightpx}&flipv=${flipvBool}&fliph=${fliphBool}`;
         
         navigator.clipboard.writeText(copyURL).then(function() {
            copyPopup();
@@ -795,7 +803,7 @@ function copyURL(){
         }
     }
     else{
-        let copyURL = `https://i.dev.alv.cx/i/${slug}`;
+        let copyURL = `https://i.alv.cx/i/${slug}`;
         navigator.clipboard.writeText(copyURL).then(function() {
             copyPopup();
         }, function(err){
@@ -815,7 +823,7 @@ function copyURL(){
 
 function extractHeight() {
     const img = new Image;
-    img.src = `https://i.dev.alv.cx/i/${slug}`
+    img.src = `https://i.alv.cx/i/${slug}`
 
  
       
@@ -828,7 +836,7 @@ function extractHeight() {
 
 function extractWidth() {
     const img = new Image;
-    img.src = `https://i.dev.alv.cx/i/${slug}`
+    img.src = `https://i.alv.cx/i/${slug}`
 
    
         
