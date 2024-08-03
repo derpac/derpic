@@ -129,9 +129,9 @@ function uploadImageAPI(){
 
 //----------------- API fetch DELETE to remove images -------------
 
-function deleteImageAPI(){
+function deleteImageAPI(delSlug){
 
-    if (!slug) {
+    if (!delSlug) {
         console.error('No slug available for deletion.');
         return;
     }
@@ -143,7 +143,7 @@ function deleteImageAPI(){
         },
         };
     
-        fetch(`${apiUrl}/${slug}`, requestOptions)
+        fetch(`${apiUrl}/${delSlug}`, requestOptions)
         .then(response => {
             if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -302,57 +302,52 @@ function lightMode(){
 
 // firstly we create a selected item function and class to apply css and gather info
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const grid = document.getElementById('galleryGrid');
-        const deleteBtn = document.getElementById('deleteButton');
-        let selectedItem = null;
-    
- 
-        grid.addEventListener('click', function(event) {
-            if (event.target.classList.contains('grid-item') || event.target.closest('.grid-item')) {
-                let previouslySelectedItem = document.querySelector('.grid-item.selected');
-                selectedItem = event.target.closest('.grid-item');
-                if (event.target.closest(".selected")) {
-        
-                    selectedItem.classList.remove('selected');
-                    selectedItem = null;
+document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('galleryGrid');
+    const deleteBtn = document.getElementById('deleteButton');
+    let selectedItems = [];
+
+    grid.addEventListener('click', function(event) {
+        if (event.target.classList.contains('grid-item') || event.target.closest('.grid-item')) {
+            let clickedItem = event.target.closest('.grid-item');
+            const slugId = clickedItem.id;
+            const parts = slugId.split("-");
+            const slug = parts.slice(3).join("-");
+
+            if (clickedItem.classList.contains('selected')) {
+                // Deselect the item
+                clickedItem.classList.remove('selected');
+                selectedItems = selectedItems.filter(item => item !== slug);
+                if (selectedItems.length === 0) {
                     document.getElementById('deleteButton').disabled = true;
-                    clearSelectedPopup();
-                    clearDisplayCopyImg();
                 }
-                else if (!event.target.closest(".selected")){
-                    
-                    if (previouslySelectedItem) {
-                        previouslySelectedItem.classList.remove('selected');
-                    }
-                    selectedItem = event.target.closest('.grid-item');
-                    selectedItem.classList.add('selected');
-                    const slugId = selectedItem.id;
-                    const parts = slugId.split("-");
-                    slug = parts.slice(3).join("-");
-                    console.log(slug);
-                    selectedPopup();
-                    getImageFile();
-                    clearDisplayCopyImg();
-                    displayCopyImg();
-                    document.getElementById('deleteButton').disabled = false;
-                    
-                }
-
-
-
-                // ---------- send the selected photo to the img-veiw window
-              
-                // ----------
+            } else {
+                // Select the item
+                clickedItem.classList.add('selected');
+                selectedItems.push(slug);
+                document.getElementById('deleteButton').disabled = false;
             }
-        });
+
+            console.log(selectedItems);
+            if (selectedItems.length > 0) {
+                selectedPopup();
+                getImageFile();
+                clearDisplayCopyImg();
+                displayCopyImg();
+            } else {
+                clearSelectedPopup();
+                clearDisplayCopyImg();
+            }
+        }
+    });
+       
 
 // ----------- selected item popup -------------//
 
 function selectedPopup(){
     document.getElementById('uploadButton').disabled = true;
-    let imgElement = selectedItem.children[0];
-    let imgLink = imgElement.getAttribute('src');
+    // let imgElement = selectedItem.children[0];
+    // let imgLink = imgElement.getAttribute('src');
     imageView.textContent = "";
     imageView.style.border = 0;
     const pic = document.createElement("div");
@@ -360,7 +355,7 @@ function selectedPopup(){
     pic.id = "mainPic";
     let picture = document.createElement("img");
     picture.id = "imgElement";
-    picture.src = imgLink;
+    // picture.src = imgLink;
     pic.appendChild(picture);
     
     imageView.appendChild(pic);
@@ -629,15 +624,20 @@ function displayCopyImg(){
 
 // delete button function calls the deleteImageAPI and resets the area and selected item.
         deleteBtn.addEventListener('click', function() {
-            if (selectedItem) {
-                grid.removeChild(selectedItem);
-                selectedItem = null;
+            if(selectedItems.length === 0){
+                alert("Select img to delete");
+            }
+            else{
+                // grid.removeChild(selectedItem);
+                // selectedItem = null;
                 clearDisplayCopyImg();
                 deleteImageAPI();
                 resetDropArea();
-            } else {
-                alert('Please select an item to delete.');
+                for(i = 0; i < selectedItems.length; i++){
+                    deleteImageAPI(selectedItems[i]);
+                }
             }
+           
         });
      });
 //---------------------- function  that resets the img-view area ------------------------------
