@@ -1,4 +1,4 @@
-const apiUrl = 'https://i.dev.alv.cx/me';
+const apiUrl = 'https://i.alv.cx/me';
 
 const loginGrid = document.getElementById("login-grid");
 
