@@ -9,11 +9,14 @@ const dropArea = document.getElementById("drop-area");    // setting global area
 const inputFile = document.getElementById("input-img");
 const imageView = document.getElementById("img-view");
 
+let selectedItems;
 let clickedItem = null;
 let selectedItem = null;
 let slug = "";
 let liveSlug = "";
-
+const confirmationModal = document.getElementById('confirmationModal');
+const confirmDeleteBtn = document.getElementById('confirmDelete');
+const cancelDeleteBtn = document.getElementById('cancelDelete');
 
 loadGallery();      // calls load gallery before anything.
 
@@ -340,35 +343,47 @@ document.addEventListener('DOMContentLoaded', () => {
             if (selectedItems.length > 0) {
                 selectedPopup();
                 getImageFile();
-                clearDisplayCopyImg();
-                displayCopyImg();
             } else {
                 clearSelectedPopup();
                 clearDisplayCopyImg();
             }
         }
+        slug = selectedItems[0];
     });
        
 
 // ----------- selected item popup -------------//
 
 function selectedPopup(){
-    document.getElementById('uploadButton').disabled = true;
-    let imgElement = clickedItem.children[0];
-    let imgLink = imgElement.getAttribute('src');
-    imageView.textContent = "";
-    imageView.style.border = 0;
-    const pic = document.createElement("div");
-    pic.className = "mainPic";
-    pic.id = "mainPic";
-    let picture = document.createElement("img");
-    picture.id = "imgElement";
-    picture.src = imgLink;
-    pic.appendChild(picture);
-    
-    imageView.appendChild(pic);
+    if(selectedItems.length === 1){
+        clearDisplayCopyImg();
+        displayCopyImg();
+        console.log("one");
+        document.getElementById('uploadButton').disabled = true;
+        let imgElement = clickedItem.children[0];
+        let imgLink = imgElement.getAttribute('src');
+        imageView.textContent = "";
+        imageView.style.border = 0;
+        const pic = document.createElement("div");
+        pic.className = "mainPic";
+        pic.id = "mainPic";
+        let picture = document.createElement("img");
+        picture.id = "imgElement";
+        picture.src = imgLink;
+        pic.appendChild(picture);
+        imageView.appendChild(pic);
+    }
+    else if(selectedItems.length > 1){
+        clearSelectedPopup();
+        clearDisplayCopyImg();
+        console.log("multi");
+        document.getElementById('uploadButton').disabled = true;
+        // imageView.style.border = 0;
+        imageView.innerHTML = "<i class='fa-regular fa-images' style='font-size: 150px'></i><p>Multiple images selected</p>";
+    }
     
 }
+
 // -------------- selected popup from slug -------------
 function selectedPopupFromSlug(liveSlug){
     imageView.textContent = "";
@@ -635,17 +650,35 @@ function displayCopyImg(){
             if(selectedItems.length === 0){
                 alert("Select img to delete");
             }
-            else{
-                // grid.removeChild(selectedItem);
-                // selectedItem = null;
+            else if(selectedItems.length === 1){
                 clearDisplayCopyImg();
                 deleteImageAPI();
                 resetDropArea();
                 for(i = 0; i < selectedItems.length; i++){
                     deleteImageAPI(selectedItems[i]);
+            
                 }
+                selectedItems = []
             }
-           
+            else if(selectedItems.length > 1){
+                confirmationModal.style.display = 'flex';
+                // grid.removeChild(selectedItem);
+                // selectedItem = null;
+                confirmDeleteBtn.addEventListener('click', function() {
+                clearDisplayCopyImg();
+                deleteImageAPI();
+                resetDropArea();
+                for(i = 0; i < selectedItems.length; i++){
+                    deleteImageAPI(selectedItems[i]);
+            
+                }
+                selectedItems = []
+                confirmationModal.style.display = 'none';
+            });
+            cancelDeleteBtn.addEventListener('click', function() {
+                confirmationModal.style.display = 'none';
+            });
+            }
         });
      });
 //---------------------- function  that resets the img-view area ------------------------------
