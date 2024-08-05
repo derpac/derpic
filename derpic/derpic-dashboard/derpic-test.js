@@ -364,8 +364,8 @@ function selectedPopup(){
         displayCopyImg();
         console.log("one");
         document.getElementById('uploadButton').disabled = true;
-        let imgElement = clickedItem.children[0];
-        let imgLink = imgElement.getAttribute('src');
+        // let imgElement = clickedItem.children[0];
+        // let imgLink = imgElement.getAttribute('src');
         imageView.textContent = "";
         imageView.style.border = 0;
         const pic = document.createElement("div");
@@ -373,7 +373,7 @@ function selectedPopup(){
         pic.id = "mainPic";
         let picture = document.createElement("img");
         picture.id = "imgElement";
-        picture.src = imgLink;
+        picture.src = `https://i.alv.cx/i/${selectedItems[0]}`;
         pic.appendChild(picture);
         imageView.appendChild(pic);
     }
