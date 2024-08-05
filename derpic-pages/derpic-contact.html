@@ -8,20 +8,37 @@
 </head>
 <body>
     <header>
-        <a href="/derpic\derpic-dashboard\index.html"><h1>derpic</h1></a>
+        <div class="head-grid">
+            <span class="title-container" id="title-container">
+                <h1>derpic</h1>
+            </span>
+            <div class="profile-area" id="profile-area">
+                <label class="night-checkbox-container">
+                    <input type="checkbox" id="night-checkbox" checked>
+                    <span class="night-checkbox-text"></span>
+                  </label>
+                  <button class="logout-button" id="logoutButton">Logout</button>
+                <p id="username"></p>
+            </div>
+            </div>
     </header>
     <div class="main">
-        <div class="pages-info">
+        <div class="pages-info" id="pages-info">
             <h2>contact</h2>
-            <p>please report any bugs and/or suggest new features by tweeting @derpac_</p>
+            <br>
+            <p>please report any bugs and/or suggest new features by tweeting <a href="https://x.com/derpac_">@derpac_</a></p>
         </div>
     </div>
     <footer>
-        <div class="footer-flex">
+        <div class="footer-flex" id="footer">
             <a href = "/derpic-pages\derpic-about.html">about</a>
+            <p>|</p>
             <a href = "/derpic-pages\derpic-contact.html">contact</a>
+            <p>|</p>
             <a href = "/derpic-pages\derpic-privacy.html">privacy</a>
         </div>
     </footer>
+    <script src="pages.js"></script>
+    <script src="https://kit.fontawesome.com/db8401126d.js" crossorigin="anonymous"></script>
 </body>
 </html>

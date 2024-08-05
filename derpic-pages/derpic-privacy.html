@@ -8,20 +8,37 @@
 </head>
 <body>
     <header>
-       <a href="/derpic\derpic-dashboard\index.html"><h1>derpic</h1></a>
+        <div class="head-grid">
+            <span class="title-container" id="title-container">
+                <h1>derpic</h1>
+            </span>
+            <div class="profile-area" id="profile-area">
+                <label class="night-checkbox-container">
+                    <input type="checkbox" id="night-checkbox" checked>
+                    <span class="night-checkbox-text"></span>
+                  </label>
+                  <button class="logout-button" id="logoutButton">Logout</button>
+                <p id="username"></p>
+            </div>
+            </div>
     </header>
     <div class="main">
-        <div class="pages-info">
+        <div class="pages-info" id="pages-info">
             <h2>privacy</h2>
-            <p>idrk lmao. dont share password!</p>
+            <br>
+            <p>don't upload images of private nature if you can avoid it.</p>
         </div>
     </div>
     <footer>
-        <div class="footer-flex">
+        <div class="footer-flex" id="footer">
             <a href = "/derpic-pages\derpic-about.html">about</a>
+            <p>|</p>
             <a href = "/derpic-pages\derpic-contact.html">contact</a>
+            <p>|</p>
             <a href = "/derpic-pages\derpic-privacy.html">privacy</a>
         </div>
     </footer>
+    <script src="pages.js"></script>
+    <script src="https://kit.fontawesome.com/db8401126d.js" crossorigin="anonymous"></script>
 </body>
 </html>
