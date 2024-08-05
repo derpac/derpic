@@ -271,6 +271,7 @@ const inputArea = document.getElementById("input-area");
 const gridItem = document.getElementById("grid-item");
 const profileArea = document.getElementById("profile-area");
 const modalContent = document.getElementById("modal-content");
+const footerArea = document.getElementById("footer");
 
 document.addEventListener('DOMContentLoaded', (event) => {
     const nightCheckbox = document.getElementById('night-checkbox');
@@ -294,6 +295,8 @@ function nightMode(){
     profileArea.style = "background-color: #383838; color: #f2f2f2";
     modalContent.style = "background-color: #383838";
 
+    footerArea.style = "background-color: #383838; color: #a8a8a8";
+    
 }
 
 function lightMode(){
@@ -304,6 +307,9 @@ function lightMode(){
     inputArea.style = "background-color: #e8e8e8 ;color: #282828;";
     profileArea.style = "background-color: #e8e8e8; color: #282828";
     modalContent.style = "background-color: #e8e8e8";
+   
+    footerArea.style = "background-color: #e8e8e8; color: #585858"
+
 }
 
 // --------------------------- DELETE FUNCTIONALITY--------//
