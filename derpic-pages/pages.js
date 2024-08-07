@@ -13,7 +13,7 @@ function getCookie(name) {
 function deleteCookie(name) {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
-  
+
 
 document.getElementById('logoutButton').addEventListener('click', function() {
     console.log("logout");
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             // lightMode();
        
             deleteCookie("theme");
-            document.cookie = "theme=light";
+            document.cookie = "theme=light; path=/; SameSite = Strict ";
 
             theme();
             
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             // nightMode();
             
             deleteCookie("theme");
-            document.cookie = "theme=night";
+            document.cookie = "theme=night; path=/; SameSite = Strict";
             // set night cookie
             // delete light cookie
             theme();
