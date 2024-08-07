@@ -1,6 +1,7 @@
 
 const token = getCookie("token");
 const username = getCookie("user");                      //sets the token and username from cookies
+// document.cookie = "theme=light";
 
 const apiKey = `${token}`;
 const apiUrl = 'https://i.alv.cx/i';                 // sets API URL and the key
@@ -272,45 +273,82 @@ const gridItem = document.getElementById("grid-item");
 const profileArea = document.getElementById("profile-area");
 const modalContent = document.getElementById("modal-content");
 const footerArea = document.getElementById("footer");
-
+theme();
 document.addEventListener('DOMContentLoaded', (event) => {
     const nightCheckbox = document.getElementById('night-checkbox');
 
     nightCheckbox.addEventListener('change', function() {
         if (nightCheckbox.checked) {
-            lightMode();
+            // lightMode();
+            deleteCookie("theme");
+            document.cookie = "theme=light";
+            theme();
+            
+            //set lightmode cookie
+            //delete night cookie
         }
         else{
-            nightMode();
+            // nightMode();
+            deleteCookie("theme");
+            document.cookie = "theme=night";
+            // set night cookie
+            // delete light cookie
+            theme();
         } 
         });
     });
 // ----------------- night and light mode ------------------//
-
-function nightMode(){
-    document.body.style = "color: #f2f2f2; background-color: #282828";
-    leftArea.style = "background-color: #383838";
-    rightArea.style = "background-color: #282828; border-color: #383838";
-    inputArea.style = "background-color: #383838 ;color: #f2f2f2;";
-    profileArea.style = "background-color: #383838; color: #f2f2f2";
-    modalContent.style = "background-color: #383838";
-
-    footerArea.style = "background-color: #383838; color: #a8a8a8";
+function theme(){
+    const nightCheckbox = document.getElementById('night-checkbox');
+    let theme = getCookie("theme");
+    if(theme === "light"){
+        nightCheckbox.checked = true;
+        document.body.style = "color: #282828";
+        leftArea.style = "background-color: #e8e8e8";
+        rightArea.style = "background-color: #f2f2f2";                              // setting dark and light mode (super botch but cba to change)
+        inputArea.style = "background-color: #e8e8e8 ;color: #282828;";
+        profileArea.style = "background-color: #e8e8e8; color: #282828";
+        modalContent.style = "background-color: #e8e8e8";
     
+        footerArea.style = "background-color: #e8e8e8; color: #585858"
+    }
+    else if(theme === "night"){
+        nightCheckbox.checked = false;
+        document.body.style = "color: #f2f2f2; background-color: #282828";
+        leftArea.style = "background-color: #383838";
+        rightArea.style = "background-color: #282828; border-color: #383838";
+        inputArea.style = "background-color: #383838 ;color: #f2f2f2;";
+        profileArea.style = "background-color: #383838; color: #f2f2f2";
+        modalContent.style = "background-color: #383838";
+    
+        footerArea.style = "background-color: #383838; color: #a8a8a8";
+    }
 }
 
-function lightMode(){
-    console.log("light");
-    document.body.style = "color: #282828";
-    leftArea.style = "background-color: #e8e8e8";
-    rightArea.style = "background-color: #f2f2f2";                              // setting dark and light mode (super botch but cba to change)
-    inputArea.style = "background-color: #e8e8e8 ;color: #282828;";
-    profileArea.style = "background-color: #e8e8e8; color: #282828";
-    modalContent.style = "background-color: #e8e8e8";
+// function nightMode(){
+//     document.body.style = "color: #f2f2f2; background-color: #282828";
+//     leftArea.style = "background-color: #383838";
+//     rightArea.style = "background-color: #282828; border-color: #383838";
+//     inputArea.style = "background-color: #383838 ;color: #f2f2f2;";
+//     profileArea.style = "background-color: #383838; color: #f2f2f2";
+//     modalContent.style = "background-color: #383838";
+
+//     footerArea.style = "background-color: #383838; color: #a8a8a8";
+    
+// }
+
+// function lightMode(){
+//     console.log("light");
+//     document.body.style = "color: #282828";
+//     leftArea.style = "background-color: #e8e8e8";
+//     rightArea.style = "background-color: #f2f2f2";                              // setting dark and light mode (super botch but cba to change)
+//     inputArea.style = "background-color: #e8e8e8 ;color: #282828;";
+//     profileArea.style = "background-color: #e8e8e8; color: #282828";
+//     modalContent.style = "background-color: #e8e8e8";
    
-    footerArea.style = "background-color: #e8e8e8; color: #585858"
+//     footerArea.style = "background-color: #e8e8e8; color: #585858"
 
-}
+// }
 
 // --------------------------- DELETE FUNCTIONALITY--------//
 
