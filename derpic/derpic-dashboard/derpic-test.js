@@ -42,10 +42,6 @@ function loadGallery(){
     })
     .then(data => {
         document.getElementById('galleryGrid').innerHTML = ""
-        // let slug = data[0].slug;
-        // let id = data[0].id;
-        // console.log(data.length);
-        // console.log(slug, id);
         for(let i = 0; i < data.length; i++){
             imgDataStorage = `https://i.alv.cx/i/${data[i].slug}`     //using the token iterates through the data and displays the images in the gallery hosted from the backend
             const img = document.createElement('img');
@@ -59,7 +55,6 @@ function loadGallery(){
 
             cell.appendChild(spinner);
             document.getElementById('galleryGrid').appendChild(cell);
-
             // Once the image is loaded, remove the spinner and add the image to the cell
             img.onload = function() {
                 spinner.remove();
@@ -71,7 +66,11 @@ function loadGallery(){
                 spinner.remove();
                 cell.innerHTML = '<p>Failed to load image</p>';
             };
+            selectedItems = [];
         }
+        
+        
+        
     })
     .catch(error => {
         console.error('Error:', error);
@@ -83,13 +82,10 @@ function loadGallery(){
 
 
 function uploadImageAPI(){
-
+        
         const file = inputFile.files[0];
         console.log(`Selected file: ${file.name}, type: ${file.type}, size: ${file.size} bytes`);
         if (file) {
-
-            // const formData = new FormData();
-            // formData.append('file',file);
 
             const requestOptions = {
             method: 'POST',
@@ -97,7 +93,6 @@ function uploadImageAPI(){
                 'Accept': 'application/json',
                 'X-Derpic-Token': `${apiKey}`,
                 'Content-Type': 'application/octet-stream'
-
             },
             body: file
             };
@@ -110,15 +105,19 @@ function uploadImageAPI(){
                 return response.json();
             })
             .then(data => {
+
+                selectedItems = [];
+                document.querySelectorAll('.grid-item.selected').forEach(item => item.classList.remove('selected'));
+
                 console.log(data);
                 loadGallery();
                 localStorage.removeItem('imageData');
                 document.getElementById('uploadButton').disabled = true;
                 document.getElementById('input-img').value = '';
                 resetDropArea();
-                displayMetadata();
                 const metadataElement = document.getElementById('metadata');
                 metadataElement.innerHTML = "File Name:<br>File Size:<br>File Type:<br>Image Width:<br>Image Height:";
+                
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -127,6 +126,7 @@ function uploadImageAPI(){
         else{
             console.error("No file selected");
         }
+        
     }
 
 
@@ -168,7 +168,7 @@ function deleteImageAPI(delSlug){
 
 
 
-//----------Displays the file info on input-----------
+//---------- Displays the file info on input -----------
 
 
 
@@ -207,9 +207,8 @@ document.getElementById('input-img').addEventListener('change', function(event) 
 // ------------uploadImage function sets image as background--------
 
 function uploadImage(){
-    selectedItem = null;
     slug = "";
-    
+    clearDisplayCopyImg();
     let imgLink = URL.createObjectURL(inputFile.files[0]);
     imageView.textContent = "";
     const pic = document.createElement("div");
@@ -220,15 +219,10 @@ function uploadImage(){
     pic.appendChild(picture);
     imageView.appendChild(pic);
     imageView.style.border = 0;
-    
-    clearDisplayCopyImg();
+
 }
 
 // ---------- display metadata (file info) when upload -------
-function displayMetadata(tags) {
-    const metadataElement = document.getElementById('metadata');
-    metadataElement.textContent = JSON.stringify(tags, null, 2);
-}
 
 // ---------- async function to get selcted img blob and display info such as slug -------------
 async function getImageFile() {
@@ -244,13 +238,26 @@ async function getImageFile() {
                 throw new Error('Network response was not ok');
             }
             const blob = await response.blob();
-
+            console.log(blob);
             const urlParts = imgUrl.split('/');
             const filename = urlParts[urlParts.length - 1];
 
             const file = new File([blob], filename, { type: blob.type });
 
-            metadataElement.textContent = `Slug: ${file.name}\nFile Size: ${file.size} bytes\nFile Type: ${file.type}`;
+            // Create a temporary image element to get the dimensions
+            const tempImg = new Image();
+            tempImg.src = imgUrl;
+            tempImg.onload = () => {
+                const width = tempImg.width;
+                const height = tempImg.height;
+                
+                metadataElement.textContent = `Slug: ${file.name}\nFile Size: ${file.size} bytes\nFile Type: ${file.type}\nImage Width: ${width}px\nImage Height: ${height}px`;
+            };
+            
+            tempImg.onerror = () => {
+                console.error('Error loading image for dimensions');
+                metadataElement.textContent = `Slug: ${file.name}\nFile Size: ${file.size} bytes\nFile Type: ${file.type}\nImage Width: Error \nImage Height: Error`;
+            };
         } catch (error) {
             console.error('Error fetching image:', error);
             metadataElement.textContent = 'Error fetching image';
@@ -281,7 +288,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (nightCheckbox.checked) {
             // lightMode();
             deleteCookie("theme");
-            document.cookie = "theme=light";
+            document.cookie = "theme=light; path=/; SameSite = Strict`";
             theme();
             
             //set lightmode cookie
@@ -290,7 +297,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         else{
             // nightMode();
             deleteCookie("theme");
-            document.cookie = "theme=night";
+            document.cookie = "theme=night; path=/; SameSite = Strict`";
             // set night cookie
             // delete light cookie
             theme();
@@ -325,30 +332,6 @@ function theme(){
     }
 }
 
-// function nightMode(){
-//     document.body.style = "color: #f2f2f2; background-color: #282828";
-//     leftArea.style = "background-color: #383838";
-//     rightArea.style = "background-color: #282828; border-color: #383838";
-//     inputArea.style = "background-color: #383838 ;color: #f2f2f2;";
-//     profileArea.style = "background-color: #383838; color: #f2f2f2";
-//     modalContent.style = "background-color: #383838";
-
-//     footerArea.style = "background-color: #383838; color: #a8a8a8";
-    
-// }
-
-// function lightMode(){
-//     console.log("light");
-//     document.body.style = "color: #282828";
-//     leftArea.style = "background-color: #e8e8e8";
-//     rightArea.style = "background-color: #f2f2f2";                              // setting dark and light mode (super botch but cba to change)
-//     inputArea.style = "background-color: #e8e8e8 ;color: #282828;";
-//     profileArea.style = "background-color: #e8e8e8; color: #282828";
-//     modalContent.style = "background-color: #e8e8e8";
-   
-//     footerArea.style = "background-color: #e8e8e8; color: #585858"
-
-// }
 
 // --------------------------- DELETE FUNCTIONALITY--------//
 
@@ -373,14 +356,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const slug = parts.slice(3).join("-");
 
             if (clickedItem.classList.contains('selected')) {
-                // Deselect the item
                 clickedItem.classList.remove('selected');
                 selectedItems = selectedItems.filter(item => item !== slug);
                 if (selectedItems.length === 0) {
                     document.getElementById('deleteButton').disabled = true;
                 }
             } else {
-                // Select the item
                 clickedItem.classList.add('selected');
                 selectedItems.push(slug);
                 document.getElementById('deleteButton').disabled = false;
@@ -398,6 +379,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         slug = selectedItems[0];
     });
+
+    
        
 
 // ----------- selected item popup -------------//
@@ -408,8 +391,7 @@ function selectedPopup(){
         displayCopyImg();
         console.log("one");
         document.getElementById('uploadButton').disabled = true;
-        // let imgElement = clickedItem.children[0];
-        // let imgLink = imgElement.getAttribute('src');
+
         imageView.textContent = "";
         imageView.style.border = 0;
         const pic = document.createElement("div");
@@ -426,7 +408,6 @@ function selectedPopup(){
         clearDisplayCopyImg();
         console.log("multi");
         document.getElementById('uploadButton').disabled = true;
-        // imageView.style.border = 0;
         imageView.innerHTML = "<i class='fa-regular fa-images' style='font-size: 150px'></i><p>Multiple images selected</p>";
     }
     
@@ -706,7 +687,8 @@ function displayCopyImg(){
                     deleteImageAPI(selectedItems[i]);
             
                 }
-                selectedItems = []
+                selectedItems = [];
+               
             }
             else if(selectedItems.length > 1){
                 confirmationModal.style.display = 'flex';
@@ -720,7 +702,7 @@ function displayCopyImg(){
                     deleteImageAPI(selectedItems[i]);
             
                 }
-                selectedItems = []
+                selectedItems = [];
                 confirmationModal.style.display = 'none';
             });
             cancelDeleteBtn.addEventListener('click', function() {
@@ -732,15 +714,7 @@ function displayCopyImg(){
 //---------------------- function  that resets the img-view area ------------------------------
 
     function resetDropArea(){
-        var parentDiv = document.getElementById('img-view');
-        var childDiv = document.getElementById('mainPic');
-      
-       
-        if (parentDiv && childDiv) {
-          parentDiv.removeChild(childDiv);
-        } else {
-          console.error('Parent or child div not found!');
-        }
+    
         imageView.innerHTML = "<i class='fa fa-photo' style='font-size: 150px';></i><p>Click here <br> to upload image</p>";
         imageView.style.border = "2px dashed #a8a8a8";
        
